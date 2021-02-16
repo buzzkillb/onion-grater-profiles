@@ -1,0 +1,22 @@
+## Copyright (C) 2016 - 2018 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## Modified by qubenix from https://github.com/Whonix/onion-grater/blob/master/usr/share/onion-grater-merger/examples/40_onionshare.yml
+
+---
+- exe-paths:
+    - '*'
+  users:
+    - '*'
+  hosts:
+    - '*'
+  commands:
+    ADD_ONION:
+      ## {{{ Mainnet onion service.
+      - pattern:     'NEW:(\S+) Port=33369,127.0.0.1:33369'
+        replacement: 'NEW:{} Port=33369,{client-address}:33369 Flags=DiscardPK'
+      ## Testnet onion service.
+      - pattern:     'NEW:(\S+) Port=33368,127.0.0.1:33368'
+        replacement: 'NEW:{} Port=33368,{client-address}:33368 Flags=DiscardPK'
+      ## Needed to make services ephemeral.
+      - pattern:     '250-PrivateKey=(\S+):\S+'
+        replacement: '250-PrivateKey={}:redacted'
+      ## }}}
